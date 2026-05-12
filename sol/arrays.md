@@ -274,3 +274,259 @@ console.log(unique);
 
 10. Find Frequency of Elements
 -------------------------------
+
+
+let arr = [10, 5, 20, 8, 3, 25];
+
+let max = Math.max(...arr);
+let min = Math.min(...arr);
+
+console.log("Maximum:", max);
+console.log("Minimum:", min);
+
+
+
+let arr = [10, 5, 20, 8, 3, 25];
+
+let max = arr[0];
+let min = arr[0];
+
+// Start loop from index 1
+for (let i = 1; i < arr.length; i++) {
+
+    // Check for maximum
+    if (arr[i] > max) {
+        max = arr[i];
+    }
+
+    // Check for minimum
+    if (arr[i] < min) {
+        min = arr[i];
+    }
+}
+
+console.log("Maximum:", max);
+console.log("Minimum:", min);
+
+----------------------------------------------------------------------------------------
+
+12. Sort an Array (Ascending / Descending)
+-------------------------------------------
+
+
+let arr = [5, 2, 8, 1, 9];
+
+arr.sort(function(a, b) {
+    return a - b;
+});
+console.log("Ascending Order:", arr);
+
+
+let arr = [5, 2, 8, 1, 9];
+
+arr.sort(function(a, b) {
+    return b - a;
+});
+console.log("Descending Order:", arr);
+
+
+
+// (Bubble Sort)
+
+let arr = [5, 2, 8, 1, 9];
+
+for (let i = 0; i < arr.length; i++) {
+
+    for (let j = 0; j < arr.length - 1; j++) {
+
+        // Swap if current element is greater
+        if (arr[j] > arr[j + 1]) {
+
+            let temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+        }
+    }
+}
+
+console.log("Ascending Order:", arr);
+
+
+
+
+let arr = [5, 2, 8, 1, 9];
+
+for (let i = 0; i < arr.length; i++) {
+
+    for (let j = 0; j < arr.length - 1; j++) {
+
+        // Swap if left value is smaller
+        if (arr[j] < arr[j + 1]) {
+
+            let temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+        }
+    }
+}
+
+console.log("Descending Order:", arr);
+
+----------------------------------------------------------------------------------------
+
+13. Merge Two Arrays
+---------------------
+
+
+// concat()
+
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+
+let mergedArray = arr1.concat(arr2);
+console.log(mergedArray);
+
+
+// Spread Operator (...)
+
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+
+let mergedArray = [...arr1, ...arr2];
+console.log(mergedArray);
+
+
+// Without Built-in Methods
+
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+
+let mergedArray = [];
+
+// Add elements of first array
+for (let i = 0; i < arr1.length; i++) {
+    mergedArray.push(arr1[i]);
+}
+
+// Add elements of second array
+for (let i = 0; i < arr2.length; i++) {
+    mergedArray.push(arr2[i]);
+}
+
+console.log(mergedArray);
+
+----------------------------------------------------------------------------------------
+
+14. Find Missing Number in Array
+---------------------------------
+
+
+let arr = [1, 2, 3, 5];
+
+let n = 5;
+
+let expectedSum = (n * (n + 1)) / 2;
+
+let actualSum = arr.reduce((sum, num) => sum + num, 0);
+let missingNumber = expectedSum - actualSum;
+console.log("Missing Number:", missingNumber);
+
+
+
+let arr = [1, 2, 3, 5];
+
+let n = 5;
+
+let expectedSum = (n * (n + 1)) / 2;
+
+let actualSum = 0;
+
+// Find actual sum
+for (let i = 0; i < arr.length; i++) {
+    actualSum += arr[i];
+}
+
+let missingNumber = expectedSum - actualSum;
+
+console.log("Missing Number:", missingNumber);
+
+----------------------------------------------------------------------------------------
+
+15. Find Even and Odd Numbers
+------------------------------
+
+// filter()
+
+let arr = [1, 2, 3, 4, 5, 6, 7, 8];
+
+let evenNumbers = arr.filter(num => num % 2 === 0);
+
+let oddNumbers = arr.filter(num => num % 2 !== 0);
+
+console.log("Even Numbers:", evenNumbers);
+console.log("Odd Numbers:", oddNumbers);
+
+
+
+let arr = [1, 2, 3, 4, 5, 6, 7, 8];
+
+let evenNumbers = [];
+let oddNumbers = [];
+
+for (let i = 0; i < arr.length; i++) {
+
+    // Check even
+    if (arr[i] % 2 === 0) {
+        evenNumbers.push(arr[i]);
+    }
+
+    // Check odd
+    else {
+        oddNumbers.push(arr[i]);
+    }
+}
+
+console.log("Even Numbers:", evenNumbers);
+console.log("Odd Numbers:", oddNumbers);
+
+----------------------------------------------------------------------------------------
+
+16. Count Even and Odd Numbers
+-------------------------------
+
+
+let arr = [1, 2, 3, 4, 5, 6];
+
+let evenCount = arr.filter(num => num % 2 === 0).length;
+
+let oddCount = arr.filter(num => num % 2 !== 0).length;
+
+console.log("Even Count:", evenCount);
+console.log("Odd Count:", oddCount);
+
+
+
+let arr = [1, 2, 3, 4, 5, 6];
+
+let evenCount = 0;
+let oddCount = 0;
+
+for (let i = 0; i < arr.length; i++) {
+
+    // Check even
+    if (arr[i] % 2 === 0) {
+        evenCount++;
+    }
+
+    // Otherwise odd
+    else {
+        oddCount++;
+    }
+}
+console.log("Even Count:", evenCount);
+console.log("Odd Count:", oddCount);
+
+----------------------------------------------------------------------------------------
+
+17. Find Common Elements Between Two Arrays
+--------------------------------------------
