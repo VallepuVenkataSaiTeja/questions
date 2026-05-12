@@ -530,3 +530,48 @@ console.log("Odd Count:", oddCount);
 
 17. Find Common Elements Between Two Arrays
 --------------------------------------------
+
+
+arr1 = [1, 2, 3, 4]
+arr2 = [3, 4, 5, 6]
+// [3, 4]
+
+
+let arr1 = [1, 2, 3, 4];
+let arr2 = [3, 4, 5, 6];
+
+let common = [];
+
+for (let i = 0; i < arr1.length; i++) {
+
+    if (arr2.includes(arr1[i])) {
+        common.push(arr1[i]);
+    }
+}
+
+console.log("Common Elements:", common);
+
+
+
+let arr1 = [1, 2, 3, 4];
+let arr2 = [3, 4, 5, 6];
+
+let common = [];
+
+for (let i = 0; i < arr1.length; i++) {
+
+    for (let j = 0; j < arr2.length; j++) {
+
+        if (arr1[i] === arr2[j]) {
+
+            common.push(arr1[i]);
+        }
+    }
+}
+
+console.log("Common Elements:", common);
+
+----------------------------------------------------------------------------------------
+
+18. Rotate Array Left / Right
+------------------------------
