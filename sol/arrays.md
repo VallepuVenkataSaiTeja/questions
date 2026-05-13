@@ -575,3 +575,306 @@ console.log("Common Elements:", common);
 
 18. Rotate Array Left / Right
 ------------------------------
+
+[1, 2, 3, 4, 5]
+Left rotate by 2:
+[3, 4, 5, 1, 2]
+
+// LEFT ROTATE
+
+function leftRotate(arr, k) {
+    k = k % arr.length;
+    return arr.slice(k).concat(arr.slice(0, k));
+}
+console.log(leftRotate([1,2,3,4,5], 2));      // [3,4,5,1,2]
+
+
+
+function leftRotate(arr, k) {
+    let n = arr.length;
+
+    k = k % n;
+
+    for (let i = 0; i < k; i++) {
+
+        let first = arr[0];
+
+        for (let j = 0; j < n - 1; j++) {
+            arr[j] = arr[j + 1];
+        }
+
+        arr[n - 1] = first;
+    }
+
+    return arr;
+}
+console.log(leftRotate([1,2,3,4,5], 2));
+
+
+// RIGHT ROTATE
+
+function rightRotate(arr, k) {
+    k = k % arr.length;
+    return arr.slice(-k).concat(arr.slice(0, arr.length - k));
+}
+console.log(rightRotate([1,2,3,4,5], 2));     // [4,5,1,2,3]
+
+
+
+function rightRotate(arr, k) {
+
+    let n = arr.length;
+
+    k = k % n;
+
+    for (let i = 0; i < k; i++) {
+
+        let last = arr[n - 1];
+
+        for (let j = n - 1; j > 0; j--) {
+            arr[j] = arr[j - 1];
+        }
+
+        arr[0] = last;
+    }
+
+    return arr;
+}
+console.log(rightRotate([1,2,3,4,5], 2));
+
+----------------------------------------------------------------------------------------
+
+19. Find Intersection of Arrays
+--------------------------------
+
+arr1 = [1, 2, 2, 3, 4]
+arr2 = [2, 2, 4, 6]
+// [2, 4]
+
+
+function intersection(arr1, arr2) {
+    return arr1.filter(value => arr2.includes(value));
+}
+console.log(intersection([1,2,2,3,4], [2,2,4,6]));
+
+
+
+function intersection(arr1, arr2) {
+    let result = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+
+            if (arr1[i] === arr2[j]) {
+
+                // avoid duplicates in result
+                if (!result.includes(arr1[i])) {
+                    result.push(arr1[i]);
+                }
+                break;
+            }
+        }
+    }
+
+    return result;
+}
+console.log(intersection([1,2,2,3,4], [2,2,4,6]));
+
+----------------------------------------------------------------------------------------
+
+20. Find Union of Arrays
+-------------------------
+
+arr1 = [1, 2, 3, 4]
+arr2 = [3, 4, 5, 6]
+
+function union(arr1, arr2) {
+    return [...new Set([...arr1, ...arr2])];
+}
+console.log(union([1,2,3,4], [3,4,5,6]));         // [1, 2, 3, 4, 5, 6]
+
+
+
+function union(arr1, arr2) {
+    let result = [];
+
+    // add arr1 elements
+    for (let i = 0; i < arr1.length; i++) {
+        if (!result.includes(arr1[i])) {
+            result.push(arr1[i]);
+        }
+    }
+
+    // add arr2 elements
+    for (let i = 0; i < arr2.length; i++) {
+        if (!result.includes(arr2[i])) {
+            result.push(arr2[i]);
+        }
+    }
+
+    return result;
+}
+
+console.log(union([1,2,3,4], [3,4,5,6]));
+
+----------------------------------------------------------------------------------------
+
+21. Find Pair With Given Sum
+-----------------------------
+
+arr = [2, 7, 11, 15]
+target = 9 
+- [2, 7]
+
+
+function findPair(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+
+            if (arr[i] + arr[j] === target) {
+                return [arr[i], arr[j]];
+            }
+        }
+    }
+    return [];
+}
+console.log(findPair([2,7,11,15], 9));
+
+----------------------------------------------------------------------------------------
+
+22. Find Largest Difference
+----------------------------
+
+Find the maximum difference between two elements in an array
+(i.e., arr[j] - arr[i] where j >i)
+
+[2, 3, 10, 6, 4, 8, 1] -> 8
+
+
+
+function largestDifference(arr) {
+    let maxDiff = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+
+            let diff = arr[j] - arr[i];
+
+            if (diff > maxDiff) {
+                maxDiff = diff;
+            }
+        }
+    }
+
+    return maxDiff;
+}
+console.log(largestDifference([2,3,10,6,4,8,1]));
+
+----------------------------------------------------------------------------------------
+
+23. Move All Zeros to End
+--------------------------
+
+arr = [0, 1, 0, 3, 12] -> [1, 3, 12, 0, 0]
+
+
+function moveZeros(arr) {
+    let nonZero = arr.filter(x => x !== 0);
+    let zeroCount = arr.length - nonZero.length;
+
+    return nonZero.concat(new Array(zeroCount).fill(0));
+}
+
+console.log(moveZeros([0,1,0,3,12]));
+
+
+
+
+function moveZeros(arr) {
+    let result = [];
+
+    // first add non-zeros
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== 0) {
+            result.push(arr[i]);
+        }
+    }
+
+    // then add zeros
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === 0) {
+            result.push(0);
+        }
+    }
+
+    return result;
+}
+
+console.log(moveZeros([0,1,0,3,12]));
+
+----------------------------------------------------------------------------------------
+
+24. Remove Falsy Values
+------------------------
+
+arr = [0, 1, false, 2, "", 3, null, "hello", undefined, NaN]
+[1, 2, 3, "hello"]
+
+
+function removeFalsy(arr) {
+    return arr.filter(Boolean);
+}
+console.log(removeFalsy([0,1,false,2,"",3,null,"hello",undefined,NaN]));
+
+
+
+function removeFalsy(arr) {
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i]) {
+            result.push(arr[i]);
+        }
+    }
+
+    return result;
+}
+
+console.log(removeFalsy([0,1,false,2,"",3,null,"hello",undefined,NaN]));
+
+----------------------------------------------------------------------------------------
+
+25. Find Second Smallest Element
+---------------------------------
+
+
+function secondSmallest(arr) {
+    let unique = [...new Set(arr)];
+    unique.sort((a, b) => a - b);
+
+    return unique[1];
+}
+console.log(secondSmallest([5,1,2,1,3]));
+
+
+
+function secondSmallest(arr) {
+    let smallest = Infinity;
+    let secondSmallest = Infinity;
+
+    for (let i = 0; i < arr.length; i++) {
+
+        if (arr[i] < smallest) {
+            secondSmallest = smallest;
+            smallest = arr[i];
+        }
+        else if (arr[i] > smallest && arr[i] < secondSmallest) {
+            secondSmallest = arr[i];
+        }
+    }
+
+    return secondSmallest;
+}
+console.log(secondSmallest([5,1,2,1,3]));
+
+----------------------------------------------------------------------------------------
