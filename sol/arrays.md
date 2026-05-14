@@ -878,3 +878,41 @@ function secondSmallest(arr) {
 console.log(secondSmallest([5,1,2,1,3]));
 
 ----------------------------------------------------------------------------------------
+
+26. Find Unique Elements
+-------------------------
+
+arr = [1, 2, 2, 3, 4, 4, 5] -> [1, 3, 5]
+
+
+function findUnique(arr) {
+    return arr.filter((val) => {
+        return arr.indexOf(val) === arr.lastIndexOf(val);
+    });
+}
+console.log(findUnique([1,2,2,3,4,4,5]));
+
+
+
+function findUnique(arr) {
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let count = 0;
+
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[i] === arr[j]) {
+                count++;
+            }
+        }
+
+        if (count === 1) {
+            result.push(arr[i]);
+        }
+    }
+
+    return result;
+}
+console.log(findUnique([1,2,2,3,4,4,5]));
+
+----------------------------------------------------------------------------------------

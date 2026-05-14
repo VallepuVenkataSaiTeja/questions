@@ -67,10 +67,6 @@ Then practice these:
 
 ----------------------------------------------------------------------------------------
 
-Here’s a solid progression for learning **JavaScript arrays** in the right order — from beginner → intermediate → advanced → interview/problem-solving level.
-
----
-
 # JavaScript Arrays Roadmap
 
 ## 1. Array Basics
