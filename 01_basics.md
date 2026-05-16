@@ -643,3 +643,75 @@ for (let i = 1; i <= 5; i++) {
 5
 
 ----------------------------------------------------------------------------------------
+
+* `Functions` : a block of reusable code designed to perform a specific task.
+
+- Syntax :
+
+function functionName() {
+  // code
+}
+
+Ex:
+----
+
+function greet() {
+  console.log("Hello World");
+}
+greet();
+
+| Part       | Meaning                    |
+| ---------- | -------------------------- |
+| `function` | Keyword to create function |
+| `greet`    | Function name              |
+| `()`       | Parameters section         |
+| `{}`       | Function body              |
+| `greet()`  | Function call/invocation   |
+
+----------------------------------------------------------------------------------------
+
+* `Arrays` : 
+
+- An array is a special type of object used to store multiple values in a single variable.
+- Instead of creating many variables, arrays let you keep related data together.
+
+let fruits = ["Apple", "Banana", "Mango"];
+
+- Arrays use zero-based indexing
+
+["Apple", "Banana", "Mango"]
+    0          1         2
+
+- `Accessing Array Elements` :
+
+let fruits = ["Apple", "Banana", "Mango"];
+console.log(fruits[0]); // Apple
+console.log(fruits[1]); // Banana
+
+----------------------------------------------------------------------------------------
+
+*`Objects` : An object is a collection of key-value pairs used to store related data together.
+
+`Creating an Object` :
+
+let user = {
+  name: "Rahul",
+  age: 21,
+  isStudent: true
+};
+
+- `Object Structure` :
+
+key      : value
+name     : "Rahul"
+age      : 21
+isStudent: true
+
+- `Accessing Object Values` :
+
+| Method           | Example        | Use Case             |
+| ---------------- | -------------- | -------------------- |
+| Dot notation     | `user.name`    | Common/simple access |
+| Bracket notation | `user["name"]` | Dynamic keys         |
+
+----------------------------------------------------------------------------------------
