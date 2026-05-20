@@ -1119,10 +1119,206 @@ getData();   // Data received
 
 * `Generator Functions` :
 
+- A Generator Function is a special kind of function in JavaScript that can:
+pause execution,
+resume later,
+and produce multiple values over time.
+Instead of returning one final value, generators return an iterator.
 
-Factory Functions
-Function Methods & Properties
-Memoization
+Syntax :
+- A generator function uses function*:
+
+function* counter() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = counter();
+
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+
+- Key points:
+function* defines a generator.
+yield returns a value and pauses the function.
+.next() resumes execution until the next yield.
+
+* `Factory Functions` :
+
+- A Factory Function is a function that creates and returns objects.
+- Instead of using class or new, you simply use a normal function to build objects.
+
+function createUser(name, age) {
+  return {
+    name,
+    age,
+    greet() {
+      console.log(`Hello, I am ${name}`);
+    }
+  };
+}
+
+const user1 = createUser("Rahul", 25);
+const user2 = createUser("Amit", 30);
+user1.greet();
+user2.greet();
+
+Hello, I am Rahul
+Hello, I am Amit
+
+- Why It’s Called “Factory”
+Like a real factory produces products, a factory function produces objects.
+Factory Function → Creates Objects
+
+- Factory Function vs Constructor Function :
+
+| Factory Function         | Constructor Function  |
+| ------------------------ | --------------------- |
+| Uses normal function     | Uses `new` keyword    |
+| Returns object manually  | `this` is used        |
+| Easier/simple syntax     | Prototype-based       |
+| No confusion with `this` | Can confuse beginners |
+
+- Factory Function :
+
+function createCar(brand) {
+  return {
+    brand
+  };
+}
+const car = createCar("Toyota");
+
+- Constructor Function :
+
+function Car(brand) {
+  this.brand = brand;
+}
+const car = new Car("Toyota");
+
+* `Function Methods & Properties` :
+
+- Common Function Methods :
+
+1. call() : Calls a function with a specific this value.
+2. apply() : Same as call(), but arguments are passed as an array.
+3. bind() : Returns a new function with fixed this.
+
+- Common Function Properties :
+
+1. name : Returns function name.
+2. length : Returns number of expected parameters.
+3. prototype : Used with constructor functions and inheritance.
+
+- Extra Useful Methods :
+
+toString() :Converts function to source code string.
+
+| Method / Property | Purpose                      |
+| ----------------- | ---------------------------- |
+| `call()`          | Invoke with custom `this`    |
+| `apply()`         | Same as call, args in array  |
+| `bind()`          | Returns new bound function   |
+| `name`            | Function name                |
+| `length`          | Number of parameters         |
+| `prototype`       | Used for objects/inheritance |
+| `toString()`      | Function source as string    |
+
+* `Memoization` :
+
+- Memoization is an optimization technique where you store (cache) the result of expensive function calls so repeated calls with the same inputs return instantly.
+
+- Without memoization:
+
+function square(n) {
+  console.log("Calculating...");
+  return n * n;
+}
+console.log(square(5));
+console.log(square(5));
+
+Calculating...
+25
+Calculating...
+25
+
+- The calculation runs twice.
+
+- Memoized Version :
+
+function memoizedSquare() {
+  const cache = {};
+  return function (n) {
+    if (cache[n]) {
+      console.log("From cache");
+      return cache[n];
+    }
+    console.log("Calculating...");
+    const result = n * n;
+    cache[n] = result;
+    return result;
+  };
+}
+const square = memoizedSquare();
+console.log(square(5));
+console.log(square(5));
+console.log(square(6));
+console.log(square(6));
+
+* `Functional Programming Concepts` :
+
+- Functional Programming (FP) is a programming style focused on:
+    Pure functions
+    Immutability
+    Function composition
+    Avoiding shared state and side effects
+
+1. Pure Functions
+Gives same output for same input
+Has no side effects
+
+2. Immutability
+Do not modify existing data; create new data instead.
+
+3. First-Class Functions
+Stored in variables
+Passed as arguments
+Returned from other functions
+
+4. Higher-Order Functions
+Take functions as arguments
+Or return functions
+
+5. Callback Functions
+A function passed into another function.
+
+6. Function Composition
+Combining functions together.
+
+7. Declarative Programming
+Focus on what to do instead of how.
+
+8. Map
+Transforms array elements.
+
+9. Filter
+Filters elements based on condition.
+
+10. Reduce
+Reduces array to single value.
+
+11. Currying
+Transform function with multiple arguments into chained single-argument functions.
+
+12. Closures
+Inner function remembers outer variables.
+
+13. Recursion
+Function calling itself.
+
+
 Functional Programming Concepts
     Immutability
     Composition
