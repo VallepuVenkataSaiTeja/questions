@@ -914,3 +914,887 @@ Summary :
 | Object.getOwnPropertyDescriptors() | Inspect property details         |
 
 * `Optional Chaining and Nullish Coalescing` :
+
+`Optional Chaining (?.)` : Optional chaining is used to safely access deeply nested properties without causing errors.
+- Problem Without Optional Chaining , If a property doesn’t exist, JavaScript throws an error.
+
+const user = {};
+console.log(user.address.city);  // TypeError: Cannot read properties of undefined
+
+Solution: Optional Chaining - No error occurs.
+const user = {};
+console.log(user?.address?.city);
+
+`Nullish Coalescing (??)` : Nullish coalescing provides a default value when something is null or undefined.
+
+Problem with || - ❌ Problem: 0 is treated as falsy.
+const value = 0 || 100;
+console.log(value);  // 100
+
+Solution: ?? - ✔ Only null or undefined trigger fallback.
+const value = 0 ?? 100;
+console.log(value);  // 0
+
+* `JSON` : JavaScript Object Notation
+- It is a lightweight data format used to exchange data.
+
+{
+  "name": "Rahul",
+  "age": 25
+}
+
+- JSON vs JavaScript Object :
+
+| JavaScript Object              | JSON                        |
+| ------------------------------ | --------------------------- |
+| Real JavaScript data structure | String format               |
+| Keys can be unquoted           | Keys must use double quotes |
+| Can store functions            | Cannot store functions      |
+| Can use comments               | No comments allowed         |
+
+- Converting Object → JSON : JSON.stringify()
+
+const user = {
+  name: "Rahul",
+  age: 25
+};
+const json = JSON.stringify(user);
+console.log(json);  // {"name":"Rahul","age":25}
+
+- Converting JSON → Object : JSON.parse()
+
+const json = '{"name":"Rahul","age":25}';
+const obj = JSON.parse(json);
+console.log(obj.name);
+
+- Important Rules of JSON :
+
+Rule 1: Keys Must Use Double Quotes
+
+{
+  "name": "Rahul"
+}
+
+Rule 2: No Functions Allowed ( Functions are ignored by JSON )
+
+{
+  "greet": function() {}
+}
+
+Rule 3: No Undefined 
+
+const obj = {
+  name: "Rahul",
+  age: undefined
+};
+console.log(JSON.stringify(obj));  // {"name":"Rahul"}
+
+Rule 4: No Comments
+
+{
+  // comment          ❌ Invalid JSON:
+  "name": "Rahul"
+}
+
+Arrays work perfectly.
+
+const arr = [1, 2, 3];
+const json =
+  JSON.stringify(arr);
+console.log(json);  // [1,2,3]
+
+- Nested Objects :
+
+const user = {
+  name: "Rahul",
+  address: {
+    city: "Delhi"
+  }
+};
+const json =
+  JSON.stringify(user);
+console.log(json);  // {"name":"Rahul","address":{"city":"Delhi"}}
+
+- Pretty Printing JSON : Use extra arguments in JSON.stringify()
+
+const user = {
+  name: "Rahul",
+  age: 25
+};
+console.log(
+  JSON.stringify(user, null, 2)
+);
+
+{
+  "name": "Rahul",
+  "age": 25
+}
+
+- JSON.stringify() Parameters : JSON.stringify(value, replacer, space)
+
+| Parameter | Purpose                  |
+| --------- | ------------------------ |
+| value     | object to convert        |
+| replacer  | filter/modify properties |
+| space     | formatting               |
+
+* `Object-Oriented Concepts` : Even before classes existed, JavaScript used objects and prototypes to implement OOP concepts.
+
+Main OOP Concepts
+
+There are 4 major concepts:
+
+Encapsulation
+Inheritance
+Polymorphism
+Abstraction
+
+JavaScript implements these using:
+
+Objects
+Functions
+Prototypes
+Classes
+
+1. Encapsulation : bundling data and the methods that operate on that data together, while restricting direct access to some internal details.
+- It also means controlling access to internal data.
+
+JavaScript supports encapsulation in multiple ways :
+
+1. Basic Object Encapsulation :
+
+const bankAccount = {
+  balance: 1000,
+
+  deposit(amount) {
+    this.balance += amount;
+  },
+
+  withdraw(amount) {
+    this.balance -= amount;
+  }
+};
+
+bankAccount.deposit(500);
+console.log(bankAccount.balance); // 1500
+
+- The balance is still publicly accessible. So this is not true protection.
+  ( bankAccount.balance = -999999; )
+
+2. Encapsulation using Closures : Closures allow private variables.
+
+function createBankAccount() {
+  let balance = 1000; // private variable
+
+  return {
+    deposit(amount) {
+      balance += amount;
+    },
+
+    withdraw(amount) {
+      balance -= amount;
+    },
+
+    getBalance() {
+      return balance;
+    }
+  };
+}
+
+const account = createBankAccount();
+account.deposit(500);
+console.log(account.getBalance()); // 1500
+console.log(account.balance); // undefined
+
+Why this works :
+- balance exists inside the function scope and cannot be accessed directly from outside.
+- Only the returned methods can interact with it.
+- This is classic JavaScript encapsulation.
+
+3. Encapsulation using Classes : ES6 classes provide cleaner syntax.
+
+class BankAccount {
+  constructor(balance) {
+    this.balance = balance;
+  }
+
+  deposit(amount) {
+    this.balance += amount;
+  }
+
+  getBalance() {
+    return this.balance;
+  }
+}
+
+const account = new BankAccount(1000);
+account.deposit(200);
+console.log(account.getBalance());
+
+But here balance is still public ( account.balance = 0; )
+
+4. True Private Fields (#) : Modern JavaScript supports real private fields.
+
+class BankAccount {
+  #balance;
+
+  constructor(balance) {
+    this.#balance = balance;
+  }
+
+  deposit(amount) {
+    this.#balance += amount;
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+const account = new BankAccount(1000);
+account.deposit(500);
+console.log(account.getBalance()); // 1500
+
+Trying to access private fields directly: console.log(account.#balance);
+Results in: SyntaxError
+This is the strongest built-in encapsulation in modern JS.
+
+2. Inheritance : Inheritance means a class or object can reuse properties and methods from another class or object.
+
+Inheritance allows you to:
+    Reuse code
+    Extend existing functionality
+    Create cleaner object hierarchies
+    Follow DRY (“Don’t Repeat Yourself”)
+
+1. Inheritance using Classes (extends) : Modern JavaScript uses the extends keyword.
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(`${this.name} makes a sound`);
+  }
+}
+
+class Dog extends Animal {
+  bark() {
+    console.log(`${this.name} barks`);
+  }
+}
+
+const dog = new Dog("Rocky");
+dog.speak(); // inherited method
+dog.bark();  // own method
+
+Dog inherits from Animal.
+So Dog automatically gets:
+name
+speak()
+and can also define its own methods like bark().
+
+2. Using super() : super() calls the parent class constructor.
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name); // calls parent constructor
+    this.breed = breed;
+  }
+}
+
+const dog = new Dog("Rocky", "Labrador");
+console.log(dog.name);
+console.log(dog.breed);
+
+Without super(), this cannot be used in child constructors.
+
+3. Method Overriding : Child classes can replace parent methods.
+
+class Animal {
+  speak() {
+    console.log("Animal makes sound");
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    console.log("Dog barks");
+  }
+}
+
+const dog = new Dog();
+dog.speak();  // Dog barks
+
+- This is called method overriding.
+
+4. Calling Parent Methods with super :
+
+class Animal {
+  speak() {
+    console.log("Animal sound");
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    super.speak();
+    console.log("Dog bark");
+  }
+}
+
+const dog = new Dog();
+dog.speak();
+
+Animal sound
+Dog bark
+
+5. Prototype-based Inheritance : JavaScript inheritance is actually based on prototypes under the hood.
+
+const animal = {
+  speak() {
+    console.log("Animal speaks");
+  }
+};
+
+const dog = Object.create(animal);
+
+dog.bark = function () {
+  console.log("Dog barks");
+};
+
+dog.speak();
+dog.bark();
+
+Here:
+dog inherits from animal
+animal becomes the prototype of dog
+
+Inheritance Chain :
+
+JavaScript looks for properties in this order:
+object → prototype → parent prototype → Object.prototype
+This is called the prototype chain.
+
+3. Polymorphism :  Polymorphism means: “One interface, many forms.”
+- Different objects can respond to the same method call in different ways.
+
+For example:
+A dog makes a barking sound
+A cat makes a meowing sound
+Both can have a method called speak(), but behave differently.
+
+1. Method Overriding (Runtime Polymorphism) 
+This is the most common type in JavaScript.
+
+class Animal {
+  sound() {
+    console.log("Animal sound");
+  }
+}
+
+class Dog extends Animal {
+  sound() {
+    console.log("Woof");
+  }
+}
+
+class Cat extends Animal {
+  sound() {
+    console.log("Meow");
+  }
+}
+
+const dog = new Dog();
+const cat = new Cat();
+
+dog.sound();
+cat.sound();
+
+Woof
+Meow
+// Same method → different behavior.
+
+4. Abstraction : Hiding complex implementation details and showing only the essential features.
+- The user interacts with a simple interface without needing to know how everything works internally.
+
+1. Simple Abstraction Example :
+
+class CoffeeMachine {
+  start() {
+    this.#boilWater();
+    this.#brewCoffee();
+    console.log("Coffee is ready");
+  }
+
+  #boilWater() {
+    console.log("Boiling water...");
+  }
+
+  #brewCoffee() {
+    console.log("Brewing coffee...");
+  }
+}
+
+const machine = new CoffeeMachine();
+machine.start();
+
+Boiling water...
+Brewing coffee...
+Coffee is ready
+
+The user only calls: machine.start()
+Internal steps are hidden.
+This is abstraction.
+
+2. Abstraction using Private Methods :
+Modern JavaScript supports private fields/methods using #.
+
+class BankAccount {
+  #balance = 0;
+
+  deposit(amount) {
+    if (this.#validate(amount)) {
+      this.#balance += amount;
+    }
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+
+  #validate(amount) {
+    return amount > 0;
+  }
+}
+
+const account = new BankAccount();
+account.deposit(500);
+console.log(account.getBalance()); 
+
+The validation logic is hidden from outside users.
+
+* `Prototypes` : Every JavaScript object has a hidden internal link to another object called its prototype.
+
+The object can:
+use its own properties
+and also access properties/methods from its prototype
+
+Think of it like this:
+Object → Prototype → Prototype → null
+This chain is called the prototype chain.
+
+const person = {
+  greet() {
+    console.log("Hello");
+  }
+};
+
+const user = {
+  name: "Aman"
+};
+
+Object.setPrototypeOf(user, person);
+user.greet();  // Hello
+
+JavaScript checks:
+
+Does user have greet()?
+→ No
+Check prototype (person)
+→ Yes
+So it executes that method.
+
+- `Prototype Chain` :
+
+const animal = {
+  eats: true
+};
+
+const dog = {
+  barks: true
+};
+
+Object.setPrototypeOf(dog, animal);
+console.log(dog.barks); // own property
+console.log(dog.eats);  // inherited
+
+Chain : dog → animal → Object.prototype → null
+
+JavaScript searches upward until:
+property is found
+or null is reached
+
+- Almost Everything in JavaScript is an Object . Arrays, functions, objects all use prototypes.
+
+const arr = [1, 2, 3];
+console.log(arr.__proto__);
+
+You’ll see array methods like:
+push
+pop
+map
+filter
+
+These come from:
+Array.prototype
+
+- `__proto__` : __proto__ points to the prototype object.
+
+const user = {};
+console.log(user.__proto__);  // Object.prototype
+
+- __proto__ is mostly used for learning/debugging. 
+
+Modern methods:
+Object.getPrototypeOf(obj)
+Object.setPrototypeOf(obj, proto)
+
+- Constructor Functions and Prototypes :
+Before ES6 classes, constructor functions were used.
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayHi = function () {
+  console.log("Hi " + this.name);
+};
+
+const p1 = new Person("Rahul");
+const p2 = new Person("Amit");
+p1.sayHi();
+p2.sayHi();
+
+Why use prototype here?
+Without prototypes:
+
+function Person(name) {
+  this.name = name;
+
+  this.sayHi = function () {
+    console.log("Hi");
+  };
+}
+Every object gets its own copy of sayHi.
+
+With prototypes:
+one shared method
+memory efficient
+
+- How new Works Internally : const p1 = new Person("Rahul");'
+
+JavaScript does roughly:
+
+const obj = {};
+obj.__proto__ = Person.prototype;
+Person.call(obj, "Rahul");
+return obj;
+
+- Prototype vs prototype : This confuses many beginners.
+
+__proto__
+Exists on objects
+Refers to actual prototype
+
+Example:
+obj.__proto__
+
+prototype
+Exists on constructor functions
+Used when creating objects with new
+
+Example:
+Person.prototype
+
+Relationship : 
+p1.__proto__ === Person.prototype
+
+- Adding Methods Using Prototype :
+
+function Car(brand) {
+  this.brand = brand;
+}
+
+Car.prototype.drive = function () {
+  console.log(this.brand + " is driving");
+};
+
+const c1 = new Car("BMW");
+c1.drive();
+
+- Inheritance with Prototypes :
+
+const person = {
+  greet() {
+    console.log("Hello");
+  }
+};
+
+const student = {
+  study() {
+    console.log("Studying");
+  }
+};
+
+Object.setPrototypeOf(student, person);
+student.greet();
+student.study();
+
+- ES6 Classes and Prototypes :
+Classes are just syntactic sugar over prototypes.
+
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    console.log("Hi " + this.name);
+  }
+}
+
+const p1 = new Person("Rahul");
+
+Internally: Person.prototype.sayHi , stores the method.
+
+- Checking Properties :
+
+hasOwnProperty() : Checks whether property belongs directly to object.
+
+const animal = {
+  eats: true
+};
+
+const dog = {
+  barks: true
+};
+
+Object.setPrototypeOf(dog, animal);
+console.log(dog.hasOwnProperty("barks")); // true
+console.log(dog.hasOwnProperty("eats"));  // false
+
+- Prototype Chain Lookup :
+
+const grandParent = {
+  money: true
+};
+
+const parent = {};
+const child = {};
+
+Object.setPrototypeOf(parent, grandParent);
+Object.setPrototypeOf(child, parent);
+console.log(child.money);
+
+child
+↓
+parent
+↓
+grandParent
+↓
+Object.prototype
+↓
+null
+
+- Object.create() : Creates object with specific prototype.
+
+const animal = {
+  eats: true
+};
+
+const dog = Object.create(animal);
+console.log(dog.eats);
+
+Here : dog → animal
+
+           Object.prototype
+                  ↑
+               animal
+                  ↑
+                 dog
+
+| `__proto__`                | `prototype`              |
+| -------------------------- | ------------------------ |
+| Exists on objects          | Exists on functions      |
+| Points to actual prototype | Used for inheritance     |
+| Internal link              | Template for new objects |
+
+* `Classes` : Classes in JavaScript are a blueprint for creating objects
+
+1. What is a Class?
+
+A class is a template for creating objects.
+
+Think of it like:
+Class = blueprint
+Object = real instance created from blueprint
+
+class Car {
+  constructor(brand) {
+    this.brand = brand;
+  }
+}
+
+const car1 = new Car("Toyota");
+console.log(car1.brand);
+
+- Constructor : The constructor is a special method that runs automatically when an object is created.
+
+class User {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+const u1 = new User("Rahul", 25);
+console.log(u1);
+
+- Class Methods : Methods are functions inside a class.
+
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log("Hello " + this.name);
+  }
+}
+
+const p1 = new Person("Rahul");
+p1.greet();  // Hello Rahul
+
+- Class vs Object :
+
+| Class             | Object     |
+| ----------------- | ---------- |
+| Blueprint         | Instance   |
+| Defines structure | Holds data |
+| Not real data     | Real data  |
+
+- this Keyword in Classes : this refers to the current object instance.
+
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+
+  show() {
+    console.log(this.name);
+  }
+}
+const u = new User("Rahul");
+u.show();  // Rahul
+
+Methods are Shared (Important) :
+  Methods are NOT duplicated in every object.
+  They are stored in prototype.
+
+class Test {
+  hello() {
+    console.log("Hi");
+  }
+}
+
+const a = new Test();
+const b = new Test();
+// Both share the same method internally.
+
+Static Methods : Static methods belong to the class itself, not objects.
+
+class MathUtils {
+  static add(a, b) {
+    return a + b;
+  }
+}
+
+console.log(MathUtils.add(5, 3));  // 8
+
+Wrong Usage :
+const obj = new MathUtils();
+obj.add(); // ❌ Error
+
+Class Inheritance : One class can inherit another class using extends.
+
+class Animal {
+  eat() {
+    console.log("Eating...");
+  }
+}
+
+class Dog extends Animal {
+  bark() {
+    console.log("Woof");
+  }
+}
+
+const d = new Dog();
+d.eat();
+d.bark();
+
+Eating...
+Woof
+
+super Keyword : Used to call parent class constructor or methods.
+
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+}
+
+Why super() is needed?
+Because child class must initialize parent first.
+
+- Getters and Setters in Classes : Used to control access to properties.
+
+class User {
+  constructor(name) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+}
+
+const u = new User("Rahul");
+console.log(u.name);
+
+- Class vs Constructor Function :
+
+Before ES6 classes:
+
+function User(name) {
+  this.name = name;
+}
+
+With class:
+
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+👉 Both are internally the same (prototype-based)
