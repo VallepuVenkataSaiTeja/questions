@@ -20,6 +20,7 @@ import Dashboard from './components/Dashboard'
 const Profile = lazy(()=>import('./components/Profile'))
 import Settings from './components/Settings'
 import DashboardHome from './components/DashboardHome'
+import ReduxCounter from './components/ReduxCounter'
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
        {/* <Callback /> */}
        <Suspense fallback={<h1>Loading...</h1>}>
         <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<ReduxCounter />} />
             <Route path='/about' element={<About />} />
             <Route path='*' element={<h1>Page not found</h1>} />
             <Route path='/user/:id' element={<User />} />
@@ -55,7 +56,7 @@ function App() {
             </Route>
         </Routes>
        </Suspense>
-       <Navbar />
+       {/* <Navbar /> */}
     </div>
   )
 }
