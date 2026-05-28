@@ -639,3 +639,89 @@ Count = **3**
 
 ## 11. Find Longest Word in Sentence
 
+```
+let str = "JavaScript is very powerful language";
+
+let word = "";
+let longest = "";
+
+// traverse string
+for (let i = 0; i <= str.length; i++) {
+
+    // if not space and not end of string
+    if (str[i] !== " " && str[i] !== undefined) {
+        word += str[i];
+    } else {
+
+        // compare lengths manually
+        if (word.length > longest.length) {
+            longest = word;
+        }
+
+        word = "";
+    }
+}
+
+console.log("Longest Word:", longest);
+```
+
+### 📌 Output
+
+```
+Longest Word: JavaScript
+```
+---
+
+## 12. Capitalize First Letter of Every Word
+
+### Using split() + map() (most common)
+
+```
+function capitalizeWords(sentence) {
+  return sentence
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+console.log(capitalizeWords("hello world"));
+// "Hello World"
+```
+
+### Without Built-in Methods
+
+```
+let str = "hello world from javascript";
+
+let result = "";
+let capitalize = true;
+
+for (let i = 0; i < str.length; i++) {
+
+    let ch = str[i];
+
+    // check if first character of word
+    if (capitalize && ch >= 'a' && ch <= 'z') {
+
+        // convert to uppercase manually
+        result += String.fromCharCode(ch.charCodeAt(0) - 32);
+
+        capitalize = false;
+
+    } else {
+
+        result += ch;
+    }
+
+    // next character after space should capitalize
+    if (ch === " ") {
+        capitalize = true;
+    }
+}
+
+console.log(result);
+
+```
+---
+
+## 13. String Compression
