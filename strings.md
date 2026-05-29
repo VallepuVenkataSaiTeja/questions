@@ -725,3 +725,929 @@ console.log(result);
 ---
 
 ## 13. String Compression
+
+String compression means:
+
+* Count consecutive repeating characters
+* Store character + count
+
+Example:
+
+```id="cmp1"
+"aabcccccaaa"
+```
+
+Output:
+
+```id="cmp2"
+"a2b1c5a3"
+```
+
+### ✅ JavaScript Solution
+
+```js id="compress1"
+let str = "aabcccccaaa";
+
+let result = "";
+let count = 1;
+
+for (let i = 0; i < str.length; i++) {
+
+    // check next character
+    if (str[i] === str[i + 1]) {
+        count++;
+    } else {
+
+        result += str[i] + count;
+        count = 1;
+    }
+}
+
+console.log(result);
+```
+
+
+### 📌 Output
+
+```id="cmpout1"
+a2b1c5a3
+```
+
+### 🔥 How it works
+
+* Start count = 1
+* Compare current character with next
+* If same → increase count
+* If different:
+
+  * add char + count to result
+  * reset count
+
+---
+
+
+
+## ✅ If you want overall/random character frequency
+
+Then use frequency counting instead.
+
+### Input
+
+```js
+"aabcaada"
+```
+
+### Output
+
+```js
+a5b1c1d1
+```
+
+
+### ✅ JavaScript Solution
+
+```js id="compress2"
+let str = "aabcaada";
+
+let freq = {};
+let result = "";
+
+// count frequency
+for (let ch of str) {
+    freq[ch] = (freq[ch] || 0) + 1;
+}
+
+// build compressed string
+for (let key in freq) {
+    result += key + freq[key];
+}
+
+console.log(result);
+```
+
+
+### 📌 Output
+
+```id="cmpout2"
+a5b1c1d1
+```
+
+
+### 🔥 Difference Between Both
+
+### 1️⃣ Consecutive Compression
+
+```js
+"aabccaaa"
+→ a2b1c2a3
+```
+
+### 2️⃣ Random/Frequency Compression
+
+```js
+"aabccaaa"
+→ a5b1c2
+```
+
+---
+
+## 14. Valid Parentheses / Balanced Brackets
+
+### ✅ Valid Parentheses / Balanced Brackets
+
+A string is **balanced** if:
+
+* every opening bracket has a matching closing bracket
+* order is correct
+
+### Examples
+
+```js id="bal1"
+"()[]{}"      → valid
+"([{}])"      → valid
+"(]"          → invalid
+"({[)]}"      → invalid
+```
+
+
+
+### ✅ Best Approach → Stack
+
+Use a stack:
+
+* opening brackets → push
+* closing brackets → check top element
+
+
+
+### ✅ JavaScript Solution
+
+```js id="bal2"
+let str = "{[()]}";
+
+let stack = [];
+let valid = true;
+
+for (let ch of str) {
+
+    // opening brackets
+    if (ch === '(' || ch === '{' || ch === '[') {
+        stack.push(ch);
+    }
+
+    // closing brackets
+    else {
+
+        let top = stack.pop();
+
+        if (
+            (ch === ')' && top !== '(') ||
+            (ch === '}' && top !== '{') ||
+            (ch === ']' && top !== '[')
+        ) {
+            valid = false;
+            break;
+        }
+    }
+}
+
+// stack should also be empty
+if (stack.length !== 0) {
+    valid = false;
+}
+
+console.log(valid ? "Balanced" : "Not Balanced");
+```
+
+
+### 📌 Output
+
+```id="balout1"
+Balanced
+```
+
+
+### 🔥 How it works
+
+### Example:
+
+```js id="bal3"
+"{[()]}"
+```
+
+### Stack Process
+
+```id="bal4"
+{   push
+[   push
+(   push
+)   pop (
+]   pop [
+}   pop {
+```
+
+Stack becomes empty → valid ✅
+
+---
+
+## 15. Find Maximum Occurring Character
+
+
+Problem:
+Find the character that appears the most times in a string.
+
+
+### ✅ Example
+
+Input:
+
+```js id="max1"
+"javascript"
+```
+
+Frequency:
+
+```id="max2"
+j → 1
+a → 2
+v → 1
+s → 1
+c → 1
+r → 1
+i → 1
+p → 1
+t → 1
+```
+
+Output:
+
+```id="max3"
+a
+```
+
+because `a` appears maximum times.
+
+
+### ✅ JavaScript Solution
+
+```js id="max4"
+let str = "javascript";
+
+let freq = {};
+let maxChar = "";
+let maxCount = 0;
+
+// count frequency
+for (let ch of str) {
+
+    freq[ch] = (freq[ch] || 0) + 1;
+
+    // update maximum
+    if (freq[ch] > maxCount) {
+        maxCount = freq[ch];
+        maxChar = ch;
+    }
+}
+
+console.log("Maximum Character:", maxChar);
+console.log("Count:", maxCount);
+```
+
+### 📌 Output
+
+```id="max5"
+Maximum Character: a
+Count: 2
+```
+
+---
+
+## 16. Toggle Character Case 
+
+Toggle means:
+
+* lowercase → uppercase
+* uppercase → lowercase
+
+## ✅ Example
+
+Input:
+
+```js id="tog1"
+"HeLLo"
+```
+
+Output:
+
+```js id="tog2"
+"hEllO"
+```
+---
+
+```js id="tog3"
+let str = "HeLLo";
+let result = "";
+
+for (let ch of str) {
+
+    // lowercase → uppercase
+    if (ch >= 'a' && ch <= 'z') {
+
+        result += String.fromCharCode(ch.charCodeAt(0) - 32);
+    }
+
+    // uppercase → lowercase
+    else if (ch >= 'A' && ch <= 'Z') {
+
+        result += String.fromCharCode(ch.charCodeAt(0) + 32);
+    }
+
+    else {
+        result += ch;
+    }
+}
+
+console.log(result);
+```
+
+---
+
+
+### Simpler Built-in Version
+
+```
+let str = "HeLLo";
+let result = "";
+
+for (let ch of str) {
+
+    if (ch === ch.toUpperCase()) {
+        result += ch.toLowerCase();
+    } else {
+        result += ch.toUpperCase();
+    }
+}
+
+console.log(result);
+```
+---
+
+## 17. Remove Spaces from String
+
+### ✅ Example
+
+Input:
+
+```js id="space1"
+"hello world js"
+```
+
+Output:
+
+```js id="space2"
+"helloworldjs"
+```
+
+
+### ✅ JavaScript Solution (Without Built-in Methods)
+
+```js id="space3"
+let str = "hello world js";
+
+let result = "";
+
+for (let ch of str) {
+
+    // skip spaces
+    if (ch !== " ") {
+        result += ch;
+    }
+}
+
+console.log(result);
+```
+
+
+### 📌 Output
+
+```id="space4"
+helloworldjs
+```
+
+
+### 💡 Built-in Method Version
+
+```js id="space18"
+let str = "hello world js";
+
+let result = str.replaceAll(" ", "");
+
+console.log(result);
+```
+
+---
+
+## 18. Count Number of Words
+
+A **word** is a sequence of characters separated by spaces.
+
+
+### ✅ Example
+
+Input:
+
+```js id="word1"
+"hello world js"
+```
+
+Output:
+
+```js id="word2"
+3
+```
+
+### ✅ JavaScript Solution (Without built-ins like split)
+
+```js id="word3"
+let str = "hello world js";
+
+let count = 0;
+let inWord = false;
+
+for (let i = 0; i < str.length; i++) {
+
+    if (str[i] !== " " && inWord === false) {
+        count++;
+        inWord = true;
+    }
+
+    if (str[i] === " ") {
+        inWord = false;
+    }
+}
+
+console.log("Words:", count);
+```
+
+
+### 📌 Output
+
+```id="word4"
+Words: 3
+```
+
+
+# 🔥 How it works
+
+We track when we **enter a word**:
+
+### Rules:
+
+* If current char is not space AND we are not already inside a word → new word found
+* If space → reset `inWord`
+
+
+### 🧠 Dry Run
+
+Input:
+
+```id="word5"
+"hi js code"
+```
+
+
+
+### Step-by-step:
+
+| Character | Action   | count | inWord |
+| --------- | -------- | ----- | ------ |
+| h         | new word | 1     | true   |
+| i         | continue | 1     | true   |
+| space     | reset    | 1     | false  |
+| j         | new word | 2     | true   |
+| s         | continue | 2     | true   |
+| space     | reset    | 2     | false  |
+| c         | new word | 3     | true   |
+| o,d,e     | continue | 3     | true   |
+
+
+
+### 📌 Final Output
+
+```id="word6"
+3
+```
+
+### 🚀 Alternative (using split - not recommended for interview practice)
+
+```js id="word11"
+let str = "hello world js";
+
+let count = str.trim().split(" ").length;
+
+console.log(count);
+```
+
+---
+
+## 19. Remove Special Characters
+
+We keep only:
+
+* letters (a–z, A–Z)
+* numbers (0–9)
+
+Remove everything else like `@ # $ % ! & *` etc.
+
+
+### ✅ Example
+
+Input:
+
+```js id="sp1"
+"he@llo# wo$rld!! 123"
+```
+
+Output:
+
+```js id="sp2"
+"hello world 123"
+```
+
+
+### ✅ JavaScript Solution (Without RegExp / Built-ins)
+
+```js id="sp3"
+let str = "he@llo# wo$rld!! 123";
+
+let result = "";
+
+for (let ch of str) {
+
+    // keep only letters and digits and space
+    if (
+        (ch >= 'a' && ch <= 'z') ||
+        (ch >= 'A' && ch <= 'Z') ||
+        (ch >= '0' && ch <= '9') ||
+        ch === " "
+    ) {
+        result += ch;
+    }
+}
+
+console.log(result);
+```
+
+
+### 📌 Output
+
+```id="sp4"
+hello world 123
+```
+
+
+### 🔥 How it works
+
+We check each character:
+
+* if it's alphabet → keep
+* if it's digit → keep
+* if it's space → keep
+* else → ignore
+
+
+### 🧠 Dry Run
+
+Input:
+
+```id="sp5"
+"a@b#1 c!"
+```
+
+| Char  | Keep? | Result |
+| ----- | ----- | ------ |
+| a     | yes   | a      |
+| @     | no    | a      |
+| b     | yes   | ab     |
+| #     | no    | ab     |
+| 1     | yes   | ab1    |
+| space | yes   | ab1    |
+| c     | yes   | ab1 c  |
+| !     | no    | ab1 c  |
+
+
+### 📌 Final Output
+
+```id="sp6"
+ab1 c
+```
+
+
+### 🚀 Regex Shortcut (if allowed)
+
+```js id="sp8"
+let str = "he@llo# wo$rld!! 123";
+
+let result = str.replace(/[^a-zA-Z0-9 ]/g, "");
+
+console.log(result);
+```
+
+---
+
+## 20. Check Substring Presence
+
+### ✅ Example
+
+Input:
+
+```js id="sub1"
+str = "hello world"
+sub = "world"
+```
+
+Output:
+
+```js id="sub2"
+true
+```
+
+
+### ✅ JavaScript Solution (Without built-in methods)
+
+```js id="sub3"
+let str = "hello world";
+let sub = "world";
+
+let found = false;
+
+for (let i = 0; i <= str.length - sub.length; i++) {
+
+    let match = true;
+
+    for (let j = 0; j < sub.length; j++) {
+
+        if (str[i + j] !== sub[j]) {
+            match = false;
+            break;
+        }
+    }
+
+    if (match) {
+        found = true;
+        break;
+    }
+}
+
+console.log(found);
+```
+
+
+### 📌 Output
+
+```id="sub4"
+true
+```
+
+
+### 🔥 How it works
+
+### Idea:
+
+We slide the substring over the main string and compare character by character.
+
+
+# 💡 Alternative (Built-in shortcut)
+
+```js id="sub10"
+console.log("hello world".includes("world"));
+```
+
+---
+
+## 21. Reverse Each Word in Sentence
+
+### ✅ Example
+
+Input:
+
+```js id="rw1"
+"hello world js"
+```
+
+Output:
+
+```js id="rw2"
+"olleh dlrow sj"
+```
+
+
+### ❌ Not this (different problem)
+
+```js id="rw3"
+"js world hello"  // this is reverse words (not asked here)
+```
+
+
+### ✅ JavaScript Solution (Without built-in reverse)
+
+```js id="rw4"
+let str = "hello world js";
+
+let result = "";
+let word = "";
+
+for (let i = 0; i <= str.length; i++) {
+
+    if (str[i] !== " " && str[i] !== undefined) {
+        word = str[i] + word; // reverse word manually
+    } else {
+        result += word + " ";
+        word = "";
+    }
+}
+
+console.log(result.trim());
+```
+
+
+### 📌 Output
+
+```id="rw5"
+olleh dlrow sj
+```
+
+---
+
+## 22. Compare Two Strings
+
+### ✅ Example
+
+```js id="cmp1"
+str1 = "hello"
+str2 = "hello"
+```
+
+Output:
+
+```js id="cmp2"
+true
+```
+---
+
+```js id="cmp3"
+str1 = "hello"
+str2 = "helloo"
+```
+
+Output:
+
+```js id="cmp4"
+false
+```
+
+
+### ✅ JavaScript Solution (Manual Comparison)
+
+```js id="cmp5"
+let str1 = "hello";
+let str2 = "hello";
+
+let isEqual = true;
+
+// Step 1: check length
+if (str1.length !== str2.length) {
+    isEqual = false;
+} else {
+
+    // Step 2: compare character by character
+    for (let i = 0; i < str1.length; i++) {
+
+        if (str1[i] !== str2[i]) {
+            isEqual = false;
+            break;
+        }
+    }
+}
+
+console.log(isEqual);
+```
+
+
+### 📌 Output
+
+```id="cmp6"
+true
+```
+---
+
+## 23. Find Frequency of Each Word
+
+### ✅ Example
+
+Input:
+
+```js id="wf1"
+"hello world hello js world"
+```
+
+Output:
+
+```js id="wf2"
+hello → 2  
+world → 2  
+js → 1
+```
+
+
+### ✅ JavaScript Solution (Without built-in `split()` or `map()`)
+
+```js id="wf3"
+let str = "hello world hello js world";
+
+let freq = {};
+let word = "";
+
+// traverse character by character
+for (let i = 0; i <= str.length; i++) {
+
+    if (str[i] !== " " && str[i] !== undefined) {
+        word += str[i];
+    } else {
+
+        if (word !== "") {
+            freq[word] = (freq[word] || 0) + 1;
+            word = "";
+        }
+    }
+}
+
+console.log(freq);
+```
+
+## 📌 Output
+
+```id="wf4"
+{ hello: 2, world: 2, js: 1 }
+```
+
+---
+
+## 24. Remove Consecutive Duplicate Characters
+
+### ✅ Example
+
+### Input:
+
+```js id="rd1"
+"aaabbcddde"
+```
+
+### Output:
+
+```js id="rd2"
+"abcde"
+```
+
+### ❌ Important Difference
+
+This is **NOT**:
+
+* removing all duplicates
+
+This IS:
+
+* removing only **adjacent duplicates**
+
+
+### ✅ JavaScript Solution (Without built-in methods)
+
+```js id="rd3"
+let str = "aaabbcddde";
+
+let result = "";
+
+for (let i = 0; i < str.length; i++) {
+
+    // add character only if it's different from previous one
+    if (i === 0 || str[i] !== str[i - 1]) {
+        result += str[i];
+    }
+}
+
+console.log(result);
+```
+
+
+## 📌 Output
+
+```id="rd4"
+abcde
+```
+
+---
+
+
+
+
+
