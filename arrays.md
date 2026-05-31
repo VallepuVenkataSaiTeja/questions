@@ -386,3 +386,117 @@ To solidify arrays:
 * Shopping cart
 * Student marks analyzer
 * Movie filtering app
+
+
+---
+
+## 1. Find Largest Element in Array
+## 2. Find Smallest Element in Array
+
+# 1. Find Largest Element in Array
+
+### Using Built-in Method
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+const largest = Math.max(...arr);
+
+console.log(largest); // 40
+```
+
+### Without Built-in Method
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+let largest = arr[0];
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > largest) {
+        largest = arr[i];
+    }
+}
+
+console.log(largest); // 40
+```
+
+### Using `reduce()`
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+const largest = arr.reduce((max, current) =>
+    current > max ? current : max
+);
+
+console.log(largest); // 40
+```
+
+---
+
+# 2. Find Smallest Element in Array
+
+### Using Built-in Method
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+const smallest = Math.min(...arr);
+
+console.log(smallest); // 5
+```
+
+### Without Built-in Method
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+let smallest = arr[0];
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < smallest) {
+        smallest = arr[i];
+    }
+}
+
+console.log(smallest); // 5
+```
+
+### Using `reduce()`
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+const smallest = arr.reduce((min, current) =>
+    current < min ? current : min
+);
+
+console.log(smallest); // 5
+```
+
+---
+
+# Find Both Largest and Smallest in One Loop
+
+```javascript
+const arr = [10, 25, 5, 40, 15];
+
+let largest = arr[0];
+let smallest = arr[0];
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > largest) {
+        largest = arr[i];
+    }
+
+    if (arr[i] < smallest) {
+        smallest = arr[i];
+    }
+}
+
+console.log("Largest:", largest);   // 40
+console.log("Smallest:", smallest); // 5
+```
+
+---
