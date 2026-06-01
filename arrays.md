@@ -500,3 +500,660 @@ console.log("Smallest:", smallest); // 5
 ```
 
 ---
+
+# 3. Find Second Largest Element
+
+### Without Inbuilt `sort()`
+
+```javascript
+const arr = [10, 5, 20, 8, 15];
+
+let largest = arr[0];
+let secondLargest = arr[0];
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > largest) {
+        secondLargest = largest;
+        largest = arr[i];
+    } else if (arr[i] > secondLargest && arr[i] !== largest) {
+        secondLargest = arr[i];
+    }
+}
+
+console.log(secondLargest); // 15
+```
+
+---
+
+### With Inbuilt `sort()`
+
+```javascript
+const arr = [10, 5, 20, 8, 15];
+
+arr.sort((a, b) => b - a);
+
+console.log(arr[1]); // 15
+```
+
+**How it works:**
+
+* `sort((a, b) => b - a)` sorts numbers in descending order.
+* The largest number becomes `arr[0]`.
+* The second largest becomes `arr[1]`.
+
+---
+
+### Simplest Interview Answer
+
+```javascript
+const arr = [10, 5, 20, 8, 15];
+
+let max = Math.max(...arr);
+let secondMax = Math.max(...arr.filter(num => num !== max));
+
+console.log(secondMax); // 15
+```
+
+This is very easy to explain:
+
+1. Find the largest number.
+2. Remove it.
+3. Find the largest among the remaining numbers.
+
+---
+
+# 4. Reverse an Array
+
+#### 1. Using Inbuilt Method
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+arr.reverse();
+
+console.log(arr); // [5, 4, 3, 2, 1]
+```
+
+---
+
+#### 2. Without Using Inbuilt Method
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+let reversed = [];
+
+for (let i = arr.length - 1; i >= 0; i--) {
+    reversed.push(arr[i]);
+}
+
+console.log(reversed); // [5, 4, 3, 2, 1]
+```
+
+---
+
+#### 3. Reverse in Place (Interview Favorite)
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+let start = 0;
+let end = arr.length - 1;
+
+while (start < end) {
+    let temp = arr[start];
+    arr[start] = arr[end];
+    arr[end] = temp;
+
+    start++;
+    end--;
+}
+
+console.log(arr); // [5, 4, 3, 2, 1]
+```
+
+---
+
+# 5. Check if Array is Sorted
+
+#### Simple Approach
+
+```javascript id="5b0n8p"
+const arr = [1, 2, 3, 4, 5];
+
+let isSorted = true;
+
+for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] > arr[i + 1]) {
+        isSorted = false;
+        break;
+    }
+}
+
+console.log(isSorted); // true
+```
+
+**Output:**
+
+* `[1, 2, 3, 4, 5]` → `true`
+* `[1, 3, 2, 4, 5]` → `false`
+
+---
+
+### Using Inbuilt `every()`
+
+```javascript id="lv0ew5"
+const arr = [1, 2, 3, 4, 5];
+
+const isSorted = arr.every((num, i) =>
+    i === arr.length - 1 || num <= arr[i + 1]
+);
+
+console.log(isSorted); // true
+```
+
+---
+
+### Interview-Friendly Version
+
+```javascript id="t8cfwi"
+function isSorted(arr) {
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < arr[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+console.log(isSorted([1, 2, 3, 4, 5])); // true
+console.log(isSorted([1, 3, 2, 4, 5])); // false
+```
+
+---
+
+# 6. Find Sum of All Elements
+
+#### Without Inbuilt Method
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+let sum = 0;
+
+for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+}
+
+console.log(sum); // 15
+```
+
+---
+
+#### Using Inbuilt `reduce()`
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+const sum = arr.reduce((total, num) => total + num, 0);
+
+console.log(sum); // 15
+```
+
+---
+
+### Interview-Friendly Function
+
+```javascript
+function findSum(arr) {
+    let sum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+
+    return sum;
+}
+
+console.log(findSum([1, 2, 3, 4, 5])); // 15
+```
+
+---
+
+## 7. Find Average of Array Elements
+
+#### Without Inbuilt Method
+
+```javascript
+const arr = [10, 20, 30, 40, 50];
+
+let sum = 0;
+
+for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+}
+
+let average = sum / arr.length;
+
+console.log(average); // 30
+```
+
+---
+
+#### Using `reduce()`
+
+```javascript
+const arr = [10, 20, 30, 40, 50];
+
+const average =
+    arr.reduce((sum, num) => sum + num, 0) / arr.length;
+
+console.log(average); // 30
+```
+
+---
+
+### Interview-Friendly Function
+
+```javascript
+function findAverage(arr) {
+    let sum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+
+    return sum / arr.length;
+}
+
+console.log(findAverage([10, 20, 30, 40, 50])); // 30
+```
+
+---
+
+# 8. Find Duplicate Elements
+
+#### Without Inbuilt Methods (Simple)
+
+```javascript
+const arr = [1, 2, 3, 2, 4, 5, 3];
+let duplicates = [];
+
+for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+        if (arr[i] === arr[j] && !duplicates.includes(arr[i])) {
+            duplicates.push(arr[i]);
+        }
+    }
+}
+
+console.log(duplicates); // [2, 3]
+```
+
+---
+
+#### Using `Set`
+
+```javascript
+const arr = [1, 2, 3, 2, 4, 5, 3];
+
+let seen = new Set();
+let duplicates = new Set();
+
+for (let num of arr) {
+    if (seen.has(num)) {
+        duplicates.add(num);
+    } else {
+        seen.add(num);
+    }
+}
+
+console.log([...duplicates]); // [2, 3]
+```
+
+---
+
+### Interview-Friendly Function
+
+```javascript
+function findDuplicates(arr) {
+    let duplicates = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] === arr[j] && !duplicates.includes(arr[i])) {
+                duplicates.push(arr[i]);
+            }
+        }
+    }
+
+    return duplicates;
+}
+
+console.log(findDuplicates([1, 2, 3, 2, 4, 5, 3])); // [2, 3]
+```
+---
+
+# 9. Remove Duplicate Elements
+
+#### Without Inbuilt Methods
+
+```javascript
+const arr = [1, 2, 3, 2, 4, 5, 3];
+let unique = [];
+
+for (let i = 0; i < arr.length; i++) {
+    if (!unique.includes(arr[i])) {
+        unique.push(arr[i]);
+    }
+}
+
+console.log(unique); // [1, 2, 3, 4, 5]
+```
+
+---
+
+#### Using `Set`
+
+```javascript
+const arr = [1, 2, 3, 2, 4, 5, 3];
+
+const unique = [...new Set(arr)];
+
+console.log(unique); // [1, 2, 3, 4, 5]
+```
+
+---
+
+### Interview-Friendly Function
+
+```javascript
+function removeDuplicates(arr) {
+    let unique = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!unique.includes(arr[i])) {
+            unique.push(arr[i]);
+        }
+    }
+
+    return unique;
+}
+
+console.log(removeDuplicates([1, 2, 3, 2, 4, 5, 3]));
+// [1, 2, 3, 4, 5]
+```
+---
+
+# 10. Find Frequency of Elements
+
+#### Simple Approach (Without fancy methods)
+
+```javascript id="freq1"
+const arr = [1, 2, 2, 3, 3, 3, 4];
+
+let freq = [];
+
+for (let i = 0; i < arr.length; i++) {
+    let count = 0;
+
+    for (let j = 0; j < arr.length; j++) {
+        if (arr[i] === arr[j]) {
+            count++;
+        }
+    }
+
+    if (!freq.includes(`${arr[i]}:${count}`)) {
+        freq.push(`${arr[i]}:${count}`);
+    }
+}
+
+console.log(freq);
+// ["1:1", "2:2", "3:3", "4:1"]
+```
+
+---
+
+### Better & Easy (Recommended)
+
+```javascript id="freq2"
+const arr = [1, 2, 2, 3, 3, 3, 4];
+
+let freq = {};
+
+for (let i = 0; i < arr.length; i++) {
+    if (freq[arr[i]]) {
+        freq[arr[i]]++;
+    } else {
+        freq[arr[i]] = 1;
+    }
+}
+
+console.log(freq);
+// { '1': 1, '2': 2, '3': 3, '4': 1 }
+```
+
+---
+
+### Interview-Friendly Function
+
+```javascript id="freq3"
+function findFrequency(arr) {
+    let freq = {};
+
+    for (let i = 0; i < arr.length; i++) {
+        freq[arr[i]] = (freq[arr[i]] || 0) + 1;
+    }
+
+    return freq;
+}
+
+console.log(findFrequency([1, 2, 2, 3, 3, 3, 4]));
+```
+
+---
+
+# 11. Find Maximum and Minimum Element
+
+## 1. Simple Approach (Without Inbuilt Methods)
+
+```javascript id="minmax1"
+const arr = [10, 5, 20, 8, 15];
+
+let max = arr[0];
+let min = arr[0];
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+        max = arr[i];
+    }
+    if (arr[i] < min) {
+        min = arr[i];
+    }
+}
+
+console.log("Max:", max); // 20
+console.log("Min:", min); // 5
+```
+
+---
+
+## 2. Using Inbuilt Methods
+
+```javascript id="minmax2"
+const arr = [10, 5, 20, 8, 15];
+
+console.log("Max:", Math.max(...arr)); // 20
+console.log("Min:", Math.min(...arr)); // 5
+```
+
+---
+
+## 3. Interview-Friendly Function
+
+```javascript id="minmax3"
+function findMinMax(arr) {
+    let max = arr[0];
+    let min = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > max) max = arr[i];
+        if (arr[i] < min) min = arr[i];
+    }
+
+    return { max, min };
+}
+
+console.log(findMinMax([10, 5, 20, 8, 15]));
+// { max: 20, min: 5 }
+```
+
+---
+
+# 12. Sort an Array (Ascending / Descending)
+
+## 1. Using Inbuilt `sort()` (Important)
+
+### Ascending Order
+
+```javascript id="sort1"
+const arr = [10, 5, 20, 8, 15];
+
+arr.sort((a, b) => a - b);
+
+console.log(arr); // [5, 8, 10, 15, 20]
+```
+
+---
+
+### Descending Order
+
+```javascript id="sort2"
+const arr = [10, 5, 20, 8, 15];
+
+arr.sort((a, b) => b - a);
+
+console.log(arr); // [20, 15, 10, 8, 5]
+```
+
+---
+
+## 2. Without Inbuilt `sort()` (Simple Bubble Sort)
+
+### Ascending Order
+
+```javascript id="sort3"
+const arr = [10, 5, 20, 8, 15];
+
+for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+            let temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+        }
+    }
+}
+
+console.log(arr); // [5, 8, 10, 15, 20]
+```
+
+---
+
+## 3. Interview-Friendly Function
+
+```javascript id="sort4"
+function sortArray(arr, order = "asc") {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - 1; j++) {
+            if (order === "asc") {
+                if (arr[j] > arr[j + 1]) {
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                }
+            } else {
+                if (arr[j] < arr[j + 1]) {
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                }
+            }
+        }
+    }
+    return arr;
+}
+
+console.log(sortArray([10, 5, 20, 8, 15], "asc"));
+console.log(sortArray([10, 5, 20, 8, 15], "desc"));
+```
+
+---
+
+# 13. Merge Two Arrays
+
+## 1. Using Inbuilt Method (`concat`) — Easiest
+
+```javascript id="merge1"
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+const merged = arr1.concat(arr2);
+
+console.log(merged); // [1, 2, 3, 4, 5, 6]
+```
+
+---
+
+## 2. Using Spread Operator (Very Common)
+
+```javascript id="merge2"
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+const merged = [...arr1, ...arr2];
+
+console.log(merged); // [1, 2, 3, 4, 5, 6]
+```
+
+---
+
+## 3. Without Inbuilt Methods (Simple Loop)
+
+```javascript id="merge3"
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+let merged = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    merged.push(arr1[i]);
+}
+
+for (let i = 0; i < arr2.length; i++) {
+    merged.push(arr2[i]);
+}
+
+console.log(merged); // [1, 2, 3, 4, 5, 6]
+```
+
+---
+
+## Interview-Friendly Function
+
+```javascript id="merge4"
+function mergeArrays(a, b) {
+    let result = [];
+
+    for (let i = 0; i < a.length; i++) {
+        result.push(a[i]);
+    }
+
+    for (let i = 0; i < b.length; i++) {
+        result.push(b[i]);
+    }
+
+    return result;
+}
+
+console.log(mergeArrays([1, 2, 3], [4, 5, 6]));
+```
+---
+
+
