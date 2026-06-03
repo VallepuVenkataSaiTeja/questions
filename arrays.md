@@ -1156,4 +1156,1194 @@ console.log(mergeArrays([1, 2, 3], [4, 5, 6]));
 ```
 ---
 
+# 14. Find Missing Number in Array
 
+### Problem
+
+Given an array containing numbers from `1` to `n`, with **one number missing**, find the missing number.
+
+**Example:**
+
+```javascript
+const arr = [1, 2, 3, 5];
+```
+
+Output:
+
+```javascript
+4
+```
+
+---
+
+## 1. Using Sum Formula (Most Common Interview Approach)
+
+```javascript
+function findMissingNumber(arr, n) {
+    let expectedSum = (n * (n + 1)) / 2;
+
+    let actualSum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        actualSum += arr[i];
+    }
+
+    return expectedSum - actualSum;
+}
+
+console.log(findMissingNumber([1, 2, 3, 5], 5)); // 4
+```
+
+### Complexity
+
+* Time: **O(n)**
+* Space: **O(1)**
+
+---
+
+## 2. Using XOR (Interview Favorite)
+
+```javascript
+function findMissingNumber(arr, n) {
+    let xor1 = 0;
+    let xor2 = 0;
+
+    for (let i = 1; i <= n; i++) {
+        xor1 ^= i;
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        xor2 ^= arr[i];
+    }
+
+    return xor1 ^ xor2;
+}
+
+console.log(findMissingNumber([1, 2, 3, 5], 5)); // 4
+```
+
+### Complexity
+
+* Time: **O(n)**
+* Space: **O(1)**
+
+---
+
+## 3. Using Sorting
+
+```javascript
+function findMissingNumber(arr) {
+    arr.sort((a, b) => a - b);
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== i + 1) {
+            return i + 1;
+        }
+    }
+
+    return arr.length + 1;
+}
+
+console.log(findMissingNumber([3, 1, 5, 2])); // 4
+```
+
+### Complexity
+
+* Time: **O(n log n)**
+* Space: **O(1)** (ignoring sort internals)
+
+---
+
+## 4. Using Set
+
+```javascript
+function findMissingNumber(arr, n) {
+    const set = new Set(arr);
+
+    for (let i = 1; i <= n; i++) {
+        if (!set.has(i)) {
+            return i;
+        }
+    }
+}
+
+console.log(findMissingNumber([1, 2, 3, 5], 5)); // 4
+```
+
+### Complexity
+
+* Time: **O(n)**
+* Space: **O(n)**
+
+---
+
+## Interview-Friendly Answer
+
+```javascript
+function findMissingNumber(arr, n) {
+    const expectedSum = (n * (n + 1)) / 2;
+
+    let actualSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        actualSum += arr[i];
+    }
+
+    return expectedSum - actualSum;
+}
+
+console.log(findMissingNumber([1, 2, 3, 5], 5)); // 4
+```
+
+**Why this is preferred:**
+
+* Simple to explain
+* Optimal Time Complexity: **O(n)**
+* Constant Space Complexity: **O(1)**
+* Frequently asked in JavaScript interviews and coding rounds.
+
+---
+
+# 15. Find Even and Odd Numbers
+
+## 1. Using `if` Condition (Simple Approach)
+
+```javascript
+const arr = [1, 2, 3, 4, 5, 6];
+
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+        console.log(arr[i] + " is Even");
+    } else {
+        console.log(arr[i] + " is Odd");
+    }
+}
+```
+
+### Output
+
+```javascript
+1 is Odd
+2 is Even
+3 is Odd
+4 is Even
+5 is Odd
+6 is Even
+```
+
+---
+
+## 2. Separate Even and Odd Numbers into Arrays
+
+```javascript
+const arr = [1, 2, 3, 4, 5, 6];
+
+let even = [];
+let odd = [];
+
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+        even.push(arr[i]);
+    } else {
+        odd.push(arr[i]);
+    }
+}
+
+console.log("Even Numbers:", even);
+console.log("Odd Numbers:", odd);
+```
+
+### Output
+
+```javascript
+Even Numbers: [2, 4, 6]
+Odd Numbers: [1, 3, 5]
+```
+
+---
+
+## 3. Using `filter()` Method
+
+```javascript
+const arr = [1, 2, 3, 4, 5, 6];
+
+const even = arr.filter(num => num % 2 === 0);
+const odd = arr.filter(num => num % 2 !== 0);
+
+console.log("Even Numbers:", even);
+console.log("Odd Numbers:", odd);
+```
+
+### Output
+
+```javascript
+Even Numbers: [2, 4, 6]
+Odd Numbers: [1, 3, 5]
+```
+
+---
+
+## Interview-Friendly Function
+
+```javascript
+function findEvenOdd(arr) {
+    let even = [];
+    let odd = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] % 2 === 0) {
+            even.push(arr[i]);
+        } else {
+            odd.push(arr[i]);
+        }
+    }
+
+    return { even, odd };
+}
+
+console.log(findEvenOdd([1, 2, 3, 4, 5, 6]));
+```
+
+### Output
+
+```javascript
+{
+  even: [2, 4, 6],
+  odd: [1, 3, 5]
+}
+```
+
+### Complexity
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(n)
+
+### Key Logic
+
+A number is:
+
+* **Even** if `number % 2 === 0`
+* **Odd** if `number % 2 !== 0`
+
+This is one of the most common beginner and interview questions for practicing array traversal and conditional logic.
+
+---
+
+# 16. Count Even and Odd Numbers
+
+## 1. Using Simple Loop (Most Common)
+
+```javascript id="count1"
+const arr = [1, 2, 3, 4, 5, 6];
+
+let evenCount = 0;
+let oddCount = 0;
+
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+        evenCount++;
+    } else {
+        oddCount++;
+    }
+}
+
+console.log("Even Count:", evenCount);
+console.log("Odd Count:", oddCount);
+```
+
+### Output
+
+```javascript id="out1"
+Even Count: 3
+Odd Count: 3
+```
+
+---
+
+## 2. Using `for...of` Loop
+
+```javascript id="count2"
+const arr = [1, 2, 3, 4, 5, 6];
+
+let evenCount = 0;
+let oddCount = 0;
+
+for (const num of arr) {
+    if (num % 2 === 0) {
+        evenCount++;
+    } else {
+        oddCount++;
+    }
+}
+
+console.log("Even Count:", evenCount);
+console.log("Odd Count:", oddCount);
+```
+
+---
+
+## 3. Using `filter()` Method
+
+```javascript id="count3"
+const arr = [1, 2, 3, 4, 5, 6];
+
+const evenCount = arr.filter(num => num % 2 === 0).length;
+const oddCount = arr.filter(num => num % 2 !== 0).length;
+
+console.log("Even Count:", evenCount);
+console.log("Odd Count:", oddCount);
+```
+
+---
+
+## Interview-Friendly Function
+
+```javascript id="count4"
+function countEvenOdd(arr) {
+    let evenCount = 0;
+    let oddCount = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] % 2 === 0) {
+            evenCount++;
+        } else {
+            oddCount++;
+        }
+    }
+
+    return {
+        evenCount,
+        oddCount
+    };
+}
+
+console.log(countEvenOdd([1, 2, 3, 4, 5, 6]));
+```
+
+### Output
+
+```javascript id="out2"
+{
+  evenCount: 3,
+  oddCount: 3
+}
+```
+
+---
+
+## Complexity
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(1)
+
+---
+
+## Key Logic
+
+```javascript id="logic1"
+if (num % 2 === 0) {
+    evenCount++;
+} else {
+    oddCount++;
+}
+```
+
+* Numbers divisible by `2` are **even**.
+* Numbers not divisible by `2` are **odd**.
+
+This is a very common interview question used to test array traversal, conditional statements, and counting logic.
+
+---
+
+# 17. Find Common Elements Between Two Arrays
+
+## Problem
+
+Given two arrays, find the elements that are present in **both arrays**.
+
+### Example
+
+```javascript id="example1"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+```
+
+### Output
+
+```javascript id="output1"
+[3, 4, 5]
+```
+
+---
+
+## 1. Using Nested Loops (Without Inbuilt Methods)
+
+```javascript id="common1"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+
+let common = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    for (let j = 0; j < arr2.length; j++) {
+        if (arr1[i] === arr2[j]) {
+            common.push(arr1[i]);
+        }
+    }
+}
+
+console.log(common);
+```
+
+### Output
+
+```javascript id="output2"
+[3, 4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n × m)
+* **Space Complexity:** O(k)
+
+---
+
+## 2. Using `filter()` and `includes()`
+
+```javascript id="common2"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+
+const common = arr1.filter(num => arr2.includes(num));
+
+console.log(common);
+```
+
+### Output
+
+```javascript id="output3"
+[3, 4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n × m)
+* **Space Complexity:** O(k)
+
+---
+
+## 3. Using Set (Optimal Approach)
+
+```javascript id="common3"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+
+const set = new Set(arr2);
+let common = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    if (set.has(arr1[i])) {
+        common.push(arr1[i]);
+    }
+}
+
+console.log(common);
+```
+
+### Output
+
+```javascript id="output4"
+[3, 4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(m)
+
+---
+
+## Interview-Friendly Function
+
+```javascript id="common4"
+function findCommonElements(arr1, arr2) {
+    const set = new Set(arr2);
+    let result = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (set.has(arr1[i])) {
+            result.push(arr1[i]);
+        }
+    }
+
+    return result;
+}
+
+console.log(findCommonElements(
+    [1, 2, 3, 4, 5],
+    [3, 4, 5, 6, 7]
+));
+```
+
+### Output
+
+```javascript id="output5"
+[3, 4, 5]
+```
+
+---
+
+## Handling Duplicates (Unique Common Elements)
+
+If the arrays can contain duplicates and you want only unique common values:
+
+```javascript id="common5"
+function findUniqueCommonElements(arr1, arr2) {
+    const set1 = new Set(arr1);
+    const set2 = new Set(arr2);
+
+    let result = [];
+
+    for (const num of set1) {
+        if (set2.has(num)) {
+            result.push(num);
+        }
+    }
+
+    return result;
+}
+
+console.log(
+    findUniqueCommonElements(
+        [1, 2, 2, 3, 4],
+        [2, 2, 4, 5]
+    )
+);
+```
+
+### Output
+
+```javascript id="output6"
+[2, 4]
+```
+
+### Best Interview Answer
+
+```javascript id="best1"
+function findCommonElements(arr1, arr2) {
+    const set = new Set(arr2);
+
+    return arr1.filter(num => set.has(num));
+}
+```
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(m)
+* Efficient and easy to explain in interviews.
+
+---
+
+# 18. Rotate Array Left / Right
+
+Array rotation means shifting elements either to the **left** or **right** by a given number of positions.
+
+---
+
+## Example
+
+```javascript id="example1"
+const arr = [1, 2, 3, 4, 5];
+```
+
+### Left Rotate by 1
+
+```javascript id="out1"
+[2, 3, 4, 5, 1]
+```
+
+### Right Rotate by 1
+
+```javascript id="out2"
+[5, 1, 2, 3, 4]
+```
+
+---
+
+# 1. Left Rotate by One Position
+
+```javascript id="left1"
+const arr = [1, 2, 3, 4, 5];
+
+const first = arr[0];
+
+for (let i = 0; i < arr.length - 1; i++) {
+    arr[i] = arr[i + 1];
+}
+
+arr[arr.length - 1] = first;
+
+console.log(arr);
+```
+
+### Output
+
+```javascript id="leftOut1"
+[2, 3, 4, 5, 1]
+```
+
+### Complexity
+
+* Time: **O(n)**
+* Space: **O(1)**
+
+---
+
+# 2. Right Rotate by One Position
+
+```javascript id="right1"
+const arr = [1, 2, 3, 4, 5];
+
+const last = arr[arr.length - 1];
+
+for (let i = arr.length - 1; i > 0; i--) {
+    arr[i] = arr[i - 1];
+}
+
+arr[0] = last;
+
+console.log(arr);
+```
+
+### Output
+
+```javascript id="rightOut1"
+[5, 1, 2, 3, 4]
+```
+
+---
+
+# 3. Using Inbuilt Methods
+
+## Left Rotate
+
+```javascript id="left2"
+const arr = [1, 2, 3, 4, 5];
+
+arr.push(arr.shift());
+
+console.log(arr);
+```
+
+### Output
+
+```javascript id="leftOut2"
+[2, 3, 4, 5, 1]
+```
+
+---
+
+## Right Rotate
+
+```javascript id="right2"
+const arr = [1, 2, 3, 4, 5];
+
+arr.unshift(arr.pop());
+
+console.log(arr);
+```
+
+### Output
+
+```javascript id="rightOut2"
+[5, 1, 2, 3, 4]
+```
+
+---
+
+# 4. Rotate by K Positions (Interview Favorite)
+
+## Left Rotate by K
+
+```javascript id="leftK"
+function rotateLeft(arr, k) {
+    k = k % arr.length;
+
+    return [...arr.slice(k), ...arr.slice(0, k)];
+}
+
+console.log(rotateLeft([1, 2, 3, 4, 5], 2));
+```
+
+### Output
+
+```javascript id="leftKOut"
+[3, 4, 5, 1, 2]
+```
+
+---
+
+## Right Rotate by K
+
+```javascript id="rightK"
+function rotateRight(arr, k) {
+    k = k % arr.length;
+
+    return [
+        ...arr.slice(-k),
+        ...arr.slice(0, arr.length - k)
+    ];
+}
+
+console.log(rotateRight([1, 2, 3, 4, 5], 2));
+```
+
+### Output
+
+```javascript id="rightKOut"
+[4, 5, 1, 2, 3]
+```
+
+---
+
+# Interview-Friendly Function
+
+```javascript id="bestRotate"
+function rotateLeft(arr, k) {
+    k = k % arr.length;
+
+    let result = [];
+
+    for (let i = k; i < arr.length; i++) {
+        result.push(arr[i]);
+    }
+
+    for (let i = 0; i < k; i++) {
+        result.push(arr[i]);
+    }
+
+    return result;
+}
+
+console.log(rotateLeft([1, 2, 3, 4, 5], 2));
+```
+
+### Output
+
+```javascript id="bestOut"
+[3, 4, 5, 1, 2]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(n)
+
+---
+
+## Best Interview Answer (Modern JavaScript)
+
+```javascript id="bestModern"
+function rotateRight(arr, k) {
+    k %= arr.length;
+    return [...arr.slice(-k), ...arr.slice(0, -k)];
+}
+```
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(n)
+* Clean, concise, and commonly accepted in JavaScript interviews.
+
+---
+
+# 19. Find Intersection of Arrays
+
+The **intersection** of two arrays contains the elements that are present in **both arrays**.
+
+---
+
+## Example
+
+```javascript id="example1"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [4, 5, 6, 7, 8];
+```
+
+### Output
+
+```javascript id="output1"
+[4, 5]
+```
+
+---
+
+# 1. Using Nested Loops (Without Inbuilt Methods)
+
+```javascript id="intersection1"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [4, 5, 6, 7, 8];
+
+let intersection = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    for (let j = 0; j < arr2.length; j++) {
+        if (arr1[i] === arr2[j]) {
+            intersection.push(arr1[i]);
+        }
+    }
+}
+
+console.log(intersection);
+```
+
+### Output
+
+```javascript id="output2"
+[4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n × m)
+* **Space Complexity:** O(k)
+
+---
+
+# 2. Using `filter()` and `includes()`
+
+```javascript id="intersection2"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [4, 5, 6, 7, 8];
+
+const intersection = arr1.filter(num => arr2.includes(num));
+
+console.log(intersection);
+```
+
+### Output
+
+```javascript id="output3"
+[4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n × m)
+* **Space Complexity:** O(k)
+
+---
+
+# 3. Using Set (Optimal Approach)
+
+```javascript id="intersection3"
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [4, 5, 6, 7, 8];
+
+const set = new Set(arr2);
+
+let intersection = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    if (set.has(arr1[i])) {
+        intersection.push(arr1[i]);
+    }
+}
+
+console.log(intersection);
+```
+
+### Output
+
+```javascript id="output4"
+[4, 5]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(m)
+
+---
+
+# 4. Intersection with Unique Values Only
+
+If arrays contain duplicates and you want only unique common elements:
+
+```javascript id="intersection4"
+function intersectionUnique(arr1, arr2) {
+    const set1 = new Set(arr1);
+    const set2 = new Set(arr2);
+
+    let result = [];
+
+    for (const num of set1) {
+        if (set2.has(num)) {
+            result.push(num);
+        }
+    }
+
+    return result;
+}
+
+console.log(
+    intersectionUnique(
+        [1, 2, 2, 3, 4],
+        [2, 2, 4, 5]
+    )
+);
+```
+
+### Output
+
+```javascript id="output5"
+[2, 4]
+```
+
+---
+
+# Interview-Friendly Function
+
+```javascript id="intersection5"
+function findIntersection(arr1, arr2) {
+    const set = new Set(arr2);
+
+    let result = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (set.has(arr1[i])) {
+            result.push(arr1[i]);
+        }
+    }
+
+    return result;
+}
+
+console.log(
+    findIntersection(
+        [1, 2, 3, 4, 5],
+        [4, 5, 6, 7, 8]
+    )
+);
+```
+
+### Output
+
+```javascript id="output6"
+[4, 5]
+```
+
+---
+
+## Best Interview Answer
+
+```javascript id="best1"
+function findIntersection(arr1, arr2) {
+    const set = new Set(arr2);
+    return arr1.filter(num => set.has(num));
+}
+```
+
+### Complexity
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(m)
+
+This is the most efficient and commonly preferred solution in JavaScript interviews because it combines the fast lookup of a `Set` with concise code.
+
+---
+
+# 20. Find Union of Arrays
+
+The **union** of two arrays contains **all unique elements** from both arrays.
+
+---
+
+## Example
+
+```javascript id="example1"
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+```
+
+### Output
+
+```javascript id="output1"
+[1, 2, 3, 4, 5, 6]
+```
+
+---
+
+# 1. Using Set (Best & Most Common)
+
+```javascript id="union1"
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+
+const union = [...new Set([...arr1, ...arr2])];
+
+console.log(union);
+```
+
+### Output
+
+```javascript id="output2"
+[1, 2, 3, 4, 5, 6]
+```
+
+### Complexity
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(n + m)
+
+---
+
+# 2. Using Loops (Without Set)
+
+```javascript id="union2"
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+
+let union = [];
+
+for (let i = 0; i < arr1.length; i++) {
+    if (!union.includes(arr1[i])) {
+        union.push(arr1[i]);
+    }
+}
+
+for (let i = 0; i < arr2.length; i++) {
+    if (!union.includes(arr2[i])) {
+        union.push(arr2[i]);
+    }
+}
+
+console.log(union);
+```
+
+### Output
+
+```javascript id="output3"
+[1, 2, 3, 4, 5, 6]
+```
+
+### Complexity
+
+* **Time Complexity:** O((n + m)²)
+* **Space Complexity:** O(n + m)
+
+---
+
+# 3. Using `concat()` and `Set`
+
+```javascript id="union3"
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+
+const union = [...new Set(arr1.concat(arr2))];
+
+console.log(union);
+```
+
+### Output
+
+```javascript id="output4"
+[1, 2, 3, 4, 5, 6]
+```
+
+---
+
+# 4. Union Keeping Duplicates
+
+If you simply want to combine arrays without removing duplicates:
+
+```javascript id="union4"
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+
+const union = [...arr1, ...arr2];
+
+console.log(union);
+```
+
+### Output
+
+```javascript id="output5"
+[1, 2, 3, 4, 3, 4, 5, 6]
+```
+
+---
+
+# Interview-Friendly Function
+
+```javascript id="union5"
+function findUnion(arr1, arr2) {
+    return [...new Set([...arr1, ...arr2])];
+}
+
+console.log(
+    findUnion(
+        [1, 2, 3, 4],
+        [3, 4, 5, 6]
+    )
+);
+```
+
+### Output
+
+```javascript id="output6"
+[1, 2, 3, 4, 5, 6]
+```
+
+---
+
+## Without Using Set (Interview Logic)
+
+```javascript id="union6"
+function findUnion(arr1, arr2) {
+    let result = [];
+
+    for (let num of arr1) {
+        if (!result.includes(num)) {
+            result.push(num);
+        }
+    }
+
+    for (let num of arr2) {
+        if (!result.includes(num)) {
+            result.push(num);
+        }
+    }
+
+    return result;
+}
+
+console.log(findUnion([1, 2, 3], [3, 4, 5]));
+```
+
+### Output
+
+```javascript id="output7"
+[1, 2, 3, 4, 5]
+```
+
+---
+
+## Best Interview Answer
+
+```javascript id="best1"
+function findUnion(arr1, arr2) {
+    return [...new Set([...arr1, ...arr2])];
+}
+```
+
+### Complexity
+
+* **Time Complexity:** O(n + m)
+* **Space Complexity:** O(n + m)
+
+### Why Preferred?
+
+* Simple and readable
+* Removes duplicates automatically
+* Uses JavaScript's `Set` for efficient unique-value handling
+* Frequently accepted in JavaScript interviews and coding rounds.
+
+---
